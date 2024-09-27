@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="10dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutWeekOff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/txtHeadTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/week_off_reset"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/edit_background_line_drawable"
+            app:layout_constraintStart_toStartOf="@id/weekOffSpinner"
+            app:layout_constraintEnd_toEndOf="@id/weekOffSpinner"
+            app:layout_constraintBottom_toBottomOf="@id/weekOffSpinner"
+            app:layout_constraintTop_toTopOf="@id/weekOffSpinner"/>
+
+        <Spinner
+            android:id="@+id/weekOffSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:padding="8dp"
+            android:background="@drawable/edit_background_line_drawable"
+            tools:listitem="@layout/week_off"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtHeadTitle"/>
+
+        <TextView
+            android:id="@+id/btnMarkWeekOff"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/mark_week_off"
+            android:textColor="@color/white"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:background="@drawable/button_background_drawable"
+            app:layout_constraintStart_toStartOf="@id/weekOffSpinner"
+            app:layout_constraintEnd_toEndOf="@id/weekOffSpinner"
+            app:layout_constraintTop_toBottomOf="@id/weekOffSpinner"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutPVC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayoutWeekOff">
+        <TextView
+            android:id="@+id/txtHeadPVCTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/police_verification"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtSelectDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_date"
+            android:textColor="@color/black"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="@drawable/edit_background_line_drawable"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtHeadPVCTitle"/>
+
+        <TextView
+            android:id="@+id/btnUpdatePVC"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/update"
+            android:textColor="@color/white"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:background="@drawable/button_background_drawable"
+            app:layout_constraintStart_toStartOf="@id/txtSelectDate"
+            app:layout_constraintEnd_toEndOf="@id/txtSelectDate"
+            app:layout_constraintTop_toBottomOf="@id/txtSelectDate"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "963951066861",
+    "firebase_url": "https://qrda-2fd01-default-rtdb.firebaseio.com",
+    "project_id": "qrda-2fd01",
+    "storage_bucket": "qrda-2fd01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:963951066861:android:fc16d0f5599cde3a8dd6e4",
+        "android_client_info": {
+          "package_name": "ai.usmart.qrdigitalattendance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_qCIlQZo1zMbXUsiMU0wQQuIpyfTqb08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:963951066861:android:b42eb01e74ea7bda8dd6e4",
+        "android_client_info": {
+          "package_name": "com.hktpl.attandanceqr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_qCIlQZo1zMbXUsiMU0wQQuIpyfTqb08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:963951066861:android:0a7790accb8786ad8dd6e4",
+        "android_client_info": {
+          "package_name": "com.hktpl.attendanceface"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_qCIlQZo1zMbXUsiMU0wQQuIpyfTqb08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:963951066861:android:2414d252e76e38518dd6e4",
+        "android_client_info": {
+          "package_name": "com.hktpl.locationscanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_qCIlQZo1zMbXUsiMU0wQQuIpyfTqb08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:963951066861:android:8fbe47a06efc2b778dd6e4",
+        "android_client_info": {
+          "package_name": "com.hktpl.supervisor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_qCIlQZo1zMbXUsiMU0wQQuIpyfTqb08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

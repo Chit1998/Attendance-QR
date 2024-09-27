@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/no_internet_drawables"
+    android:layout_gravity="center"
+    android:padding="10dp">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieNoInternet"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        app:lottie_rawRes="@raw/no_internet"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/txtNoInternet"/>
+
+    <TextView
+        android:id="@+id/txtNoInternet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/no_internet"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintTop_toBottomOf="@id/lottieNoInternet"
+        app:layout_constraintStart_toStartOf="@id/lottieNoInternet"
+        app:layout_constraintEnd_toEndOf="@id/lottieNoInternet"
+        app:layout_constraintBottom_toTopOf="@id/btnOK"/>
+
+    <TextView
+        android:id="@+id/btnOK"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="OK"
+        android:gravity="center"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:background="@drawable/button_white_round_background"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintStart_toStartOf="@id/txtNoInternet"
+        app:layout_constraintEnd_toEndOf="@id/txtNoInternet"
+        app:layout_constraintTop_toBottomOf="@id/txtNoInternet"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
