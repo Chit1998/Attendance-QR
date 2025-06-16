@@ -9,13 +9,13 @@ plugins {
 
 android {
     namespace = "com.hktpl.attandanceqr"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.hktpl.attandanceqr"
         minSdk = 23
         //noinspection EditedTargetSdkVersion
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.2"
 
@@ -43,11 +43,11 @@ android {
         viewBinding = true
     }
 
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "29.0.13599879"
 
     externalNativeBuild {
         cmake {
-            version = "3.22.1"
+            version = "4.0.2"
         }
         ndkBuild {
             path("src/main/jni/Android.mk") //path of Android.mk file
