@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activities.RegisterActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".ui.register.RegisterActivity">
 
     <ImageView
         android:id="@+id/imageViewUsmart"
@@ -36,7 +37,7 @@
         app:layout_constraintStart_toStartOf="@+id/buttonRegister"
         app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonRegister"
         android:layout_width="240dp"
         android:layout_height="58dp"

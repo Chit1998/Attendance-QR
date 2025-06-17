@@ -22,7 +22,7 @@
 
 -keep class com.hktpl.attandanceqr.** {*;}
 -keepclassmembers class com.hktpl.attandanceqr.** { *; }
--keep class com.hktpl.attandanceqr.activities.** {*;}
+-keep class com.hktpl.attandanceqr.ui.** {*;}
 -keep class com.hktpl.attandanceqr.adapter.** {*;}
 -keep class com.hktpl.attandanceqr.di.** {*;}
 -keep class com.hktpl.attandanceqr.fragments.** {*;}

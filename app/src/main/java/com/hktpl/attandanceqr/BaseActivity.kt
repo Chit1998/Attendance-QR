@@ -3,6 +3,7 @@ package com.hktpl.attandanceqr
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -15,10 +16,9 @@ open class BaseActivity : AppCompatActivity() {
 
     var internetStatus: Boolean = false
     private lateinit var connection: InternetConnection
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        checkInternetConnection()
+
+    companion object{
+        const val TAG = "baseActivity"
     }
 
     override fun onResume() {
@@ -30,11 +30,11 @@ open class BaseActivity : AppCompatActivity() {
         connection = InternetConnection(this)
         connection.observe(this){ isConnected ->
             if (!isConnected) {
-                openInternetDialog()
                 internetStatus = isConnected
             }else {
                 internetStatus = isConnected
             }
+            Log.d(TAG, "checkInternetConnection: $internetStatus")
         }
     }
 
