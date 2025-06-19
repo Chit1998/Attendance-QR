@@ -1,10 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".ui.main.MainActivity">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="userData"
+            type="com.hktpl.attandanceqr.peferences.UserPreferences" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        tools:context=".ui.main.MainActivity">
+        <include layout="@layout/toolbar_layout"
+            android:id="@+id/toolBar"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imgMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
+            android:padding="8dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/app_name"
+            app:layout_constraintTop_toTopOf="@id/toolBar"
+            app:layout_constraintBottom_toBottomOf="@id/toolBar"
+            app:layout_constraintEnd_toEndOf="@id/toolBar"/>
+
+        <TextClock
+            android:id="@+id/txtClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour="dd-MM-yyyy hh:mm:ss a"
+            android:textColor="@color/white"
+            android:layout_marginEnd="5dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:fontFamily="@font/inter_bold"
+            app:layout_constraintEnd_toStartOf="@id/imgMenu"
+            app:layout_constraintBottom_toBottomOf="@id/toolBar"
+            app:layout_constraintTop_toTopOf="@id/toolBar"/>
+
+        <TextView
+            android:id="@+id/txtEmpId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/employee_id"
+            android:fontFamily="@font/inter_bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_margin="10dp"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/txtEmpIdValue"
+            app:layout_constraintTop_toBottomOf="@id/toolBar"/>
+
+        <TextView
+            android:id="@+id/txtEmpIdValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{userData.empId}"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:fontFamily="@font/inter_bold"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toEndOf="@id/txtEmpId"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtEmpId"/>
+
+        <TextView
+            android:id="@+id/txtEmpName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:fontFamily="@font/inter_bold"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@id/txtEmpId"
+            app:layout_constraintEnd_toStartOf="@id/txtEmpNameValue"
+            app:layout_constraintTop_toBottomOf="@id/txtEmpIdValue"/>
+
+        <TextView
+            android:id="@+id/txtEmpNameValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{userData.name}"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:fontFamily="@font/inter_bold"
+            app:layout_constraintStart_toEndOf="@id/txtEmpName"
+            app:layout_constraintEnd_toEndOf="@id/txtEmpIdValue"
+            app:layout_constraintTop_toTopOf="@id/txtEmpName"/>
+
+        <TextView
+            android:id="@+id/txtEmpPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_number"
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:fontFamily="@font/inter_bold"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@id/txtEmpId"
+            app:layout_constraintEnd_toStartOf="@id/txtEmpPhoneValue"
+            app:layout_constraintTop_toBottomOf="@id/txtEmpNameValue"/>
+
+        <TextView
+            android:id="@+id/txtEmpPhoneValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{userData.phone}"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:fontFamily="@font/inter_bold"
+            app:layout_constraintStart_toEndOf="@id/txtEmpPhone"
+            app:layout_constraintEnd_toEndOf="@id/txtEmpIdValue"
+            app:layout_constraintTop_toTopOf="@id/txtEmpPhone"/>
+
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/mapGoogle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtEmpPhoneValue"
+            app:layout_constraintBottom_toTopOf="@id/txtAppVersion"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/round_qr_code_scanner"
+            app:tint="@color/white"
+            android:backgroundTint="@color/blue"
+            android:layout_margin="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtAppVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/hint"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

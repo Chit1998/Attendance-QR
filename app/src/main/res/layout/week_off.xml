@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:textColor="@color/black"
     android:id="@+id/textView"
-    android:layout_margin="2dp"
+    android:layout_margin="10dp"
     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
     android:gravity="center"
     android:padding="10dp"/>

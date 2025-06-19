@@ -1,49 +1,43 @@
 package com.hktpl.attandanceqr
 
+import android.content.IntentFilter
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.hktpl.attandanceqr.internet.InternetConnection
-import com.hktpl.attandanceqr.internet.InternetConnectionCallBack
-import com.hktpl.attandanceqr.internet.objects.InternetConnectionObserver
+import androidx.core.graphics.drawable.toDrawable
+import com.hktpl.attandanceqr.utils.internet.ConnectivityListener
+import com.hktpl.attandanceqr.utils.internet.ConnectivityReceiver
 
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity(), ConnectivityListener {
 
     var internetStatus: Boolean = false
-    private lateinit var connection: InternetConnection
-
+    var dialog: AlertDialog? = null
+    var appVersion = ""
     companion object{
         const val TAG = "baseActivity"
     }
 
-    override fun onResume() {
-        super.onResume()
-        checkInternetConnection()
-    }
-    
-    private fun checkInternetConnection() {
-        connection = InternetConnection(this)
-        connection.observe(this){ isConnected ->
-            if (!isConnected) {
-                internetStatus = isConnected
-            }else {
-                internetStatus = isConnected
-            }
-            Log.d(TAG, "checkInternetConnection: $internetStatus")
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        registerReceiver(ConnectivityReceiver(), IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        appVersion = "App Version ${packageManager.getPackageInfo(packageName, 0).versionName}"
     }
 
-    private fun openInternetDialog() {
+    override fun onResume() {
+        super.onResume()
+        ConnectivityReceiver.connectivityListener = this
+        dialog = openInternetDialog()
+    }
+
+    private fun openInternetDialog(): AlertDialog {
         val view = layoutInflater.inflate(R.layout.internet_dialog, null)
         val builder = AlertDialog.Builder(this@BaseActivity)
         builder.setView(view)
         val dialog = builder.create()
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         val txt = view.findViewById<TextView>(R.id.btnOK)
         dialog.setCancelable(false)
@@ -51,7 +45,10 @@ open class BaseActivity : AppCompatActivity() {
             dialog.cancel()
             dialog.dismiss()
         }
-        dialog.show()
+        return dialog
     }
 
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        internetStatus = isConnected
+    }
 }

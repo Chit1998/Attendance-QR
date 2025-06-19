@@ -10,6 +10,7 @@ plugins {
 android {
     namespace = "com.hktpl.attandanceqr"
     compileSdk = 36
+    android.buildFeatures.buildConfig = true
 
     defaultConfig {
         applicationId = "com.hktpl.attandanceqr"
@@ -41,6 +42,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 
     ndkVersion = "29.0.13599879"
@@ -100,6 +102,8 @@ dependencies {
 
 //    TODO Google GSM
     implementation(libs.gms.play.services.gcm)
+    implementation (libs.play.services.maps)
+    implementation (libs.play.services.location)
 
 //    TODO Lottie
     implementation(libs.lottie)

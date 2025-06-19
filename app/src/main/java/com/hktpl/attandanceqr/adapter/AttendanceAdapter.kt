@@ -1,6 +1,5 @@
 package com.hktpl.attandanceqr.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -40,7 +39,6 @@ class AttendanceAdapter(
                 } else {
                     ""
                 }
-                Log.d("TAG_DATA", "onBindViewHolder: $inTime  ${this.inSite}")
                 binding.textViewDate.text = date
                 binding.textViewInTimeShow.text = inTime
                 binding.textViewOutTimeShow.text = outTime

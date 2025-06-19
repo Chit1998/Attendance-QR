@@ -27,8 +27,8 @@ interface ApiService {
     @PUT("attendanceV1")
     suspend fun markAttendance(@Body model: AttendanceMarkModelV1): AttendanceMarkModelV1.ScanResult
 
-    @POST("role")
-    suspend fun getRole(@Body model: UserModel): UserModel.MsgModel
+//    @POST("role")
+//    suspend fun getRole(@Body model: UserModel): UserModel.MsgModel
 
     @POST("weeklyoffdayreset")
     suspend fun setWeekOff(@Body model: WeekOffModel): WeekOffResponseModel

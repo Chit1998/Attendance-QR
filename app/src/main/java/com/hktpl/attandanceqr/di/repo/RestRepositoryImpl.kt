@@ -40,14 +40,14 @@ class RestRepositoryImpl @Inject constructor(private val api: ApiService) {
         }
     }
 
-    suspend fun getRole(model: UserModel): Resource<UserModel.MsgModel>{
-        return try {
-            val result = api.getRole(model = model)
-            Resource.Success(data = result)
-        }catch (e: Exception){
-            Resource.Error(msg = e.message.toString())
-        }
-    }
+//    suspend fun getRole(model: UserModel): Resource<UserModel.MsgModel>{
+//        return try {
+//            val result = api.getRole(model = model)
+//            Resource.Success(data = result)
+//        }catch (e: Exception){
+//            Resource.Error(msg = e.message.toString())
+//        }
+//    }
 
     suspend fun markAttendance(model: AttendanceMarkModelV1): Resource<AttendanceMarkModelV1.ScanResult>{
         return try {
@@ -75,6 +75,7 @@ class RestRepositoryImpl @Inject constructor(private val api: ApiService) {
             Resource.Error(msg = e.message.toString())
         }
     }
+
     suspend fun getPvcExpiryDate(model: ShowWeekOffModel) : Resource<PvcExpiryDateResetResponseModel>{
         return try {
             val result = api.getPvcExpiryDate(model = model)

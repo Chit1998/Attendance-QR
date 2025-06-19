@@ -8,13 +8,9 @@ data class UserModel(
     val empId: String?
 ): Serializable {
     data class EmployeeInfoModel(
-        @SerializedName("name")
         val name: String?,
-        @SerializedName("empId")
         val empId: String?,
-        @SerializedName("email")
         val email: String?,
-        @SerializedName("phoneNo")
         val phoneNo: String?,
         @SerializedName("message")
         val message: String?,
@@ -24,9 +20,7 @@ data class UserModel(
         val inTime: Long?,
         @SerializedName("outTime")
         val outTime: Long?,
-        @SerializedName("markedBy")
         val markedBy: String?,
-        @SerializedName("reason")
         val reason: String?,
     ): Serializable
 

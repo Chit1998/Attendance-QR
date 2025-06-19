@@ -1,7 +1,9 @@
 package com.hktpl.attandanceqr.di
 
 import android.util.Base64
+import com.hktpl.attandanceqr.BuildConfig
 import com.hktpl.attandanceqr.objects.TAG.getApi
+import com.hktpl.attandanceqr.objects.TAG.getApiTest
 import com.hktpl.attandanceqr.services.ApiService
 import dagger.Module
 import dagger.Provides
@@ -19,7 +21,11 @@ import javax.inject.Singleton
 object AppModule {
 
     private val interceptor = HttpLoggingInterceptor().apply {
-        this.level = HttpLoggingInterceptor.Level.BODY
+        this.level = if (BuildConfig.DEBUG){
+            HttpLoggingInterceptor.Level.BODY
+        }else{
+            HttpLoggingInterceptor.Level.NONE
+        }
     }
 
     private val okHttpClient = OkHttpClient()
@@ -38,7 +44,7 @@ object AppModule {
     fun getInstance(): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl(String(Base64.decode(getApi(),Base64.DEFAULT)))
+            .baseUrl(String(Base64.decode(getApiTest(),Base64.DEFAULT)))
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()

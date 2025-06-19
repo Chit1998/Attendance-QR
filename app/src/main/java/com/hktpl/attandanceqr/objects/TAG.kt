@@ -5,15 +5,16 @@ object TAG {
         System.loadLibrary("apikey")
     }
     external fun getApi() : String
+    external fun getApiTest() : String
 
 
     const val FOUND = "USER FOUND"
 
 //    TODO Preferences
     const val USER_FILE_NAME = "user"
-    const val ROLE_STATUS = "status"
-    const val USER_ID = "userId"
-    const val USER_NAME = "name"
+    const val EMP_ID = "empId"
+    const val NAME = "name"
+    const val PHONE = "phone"
     const val OID = "id"
 
 

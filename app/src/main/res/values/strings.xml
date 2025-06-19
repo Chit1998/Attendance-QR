@@ -8,7 +8,7 @@
     <string name="login">Login</string>
     <string name="qrd">QR Digital Attendance</string>
     <string name="empty_field">field is Empty</string>
-    <string name="try_again">try again. after some times...</string>
+    <string name="try_again">Check your internet connection, After try again.</string>
     <string name="check_connection">Check your internet connection..</string>
     <string name="attendance_history">Attendance History</string>
     <string name="udf_code">Emp Code:</string>
@@ -26,7 +26,6 @@
     <string name="weekOff">Your week off is not define</string>
     <string name="week_off">Week Off:</string>
     <string name="reset_week_off">Reset Week Off</string>
-    <string name="week_off_reset">Week Off Reset</string>
     <string name="mark_week_off">Mark Week off</string>
     <string name="select_week_of">Please select week Off</string>
     <string name="select_pvc">Please select Date</string>
@@ -38,6 +37,9 @@
     <string name="update">Update</string>
     <string name="not_found">User not Found</string>
     <string name="pvc">Your police verification is not complete</string>
+    <string name="employee_id">Employee ID:</string>
+    <string name="week_select">---Select week off day---</string>
+    <string name="no_attendance_data_found">No attendance data found.</string>
 
     <string-array name="weekOff">
         <item>---Select week off day---</item>
