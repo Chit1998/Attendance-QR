@@ -109,6 +109,12 @@ dependencies {
     implementation(libs.lottie)
 
 //    TODO QR Scanner
-    implementation (libs.zxing.android.embedded)
-    implementation (libs.core)
+// CameraX
+    implementation (libs.androidx.camera.core)
+    implementation (libs.androidx.camera.camera2)
+    implementation (libs.androidx.camera.lifecycle)
+    implementation (libs.androidx.camera.view)
+
+// ML Kit Barcode Scanning
+    implementation (libs.barcode.scanning)
 }

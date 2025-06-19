@@ -30,7 +30,7 @@
     <string name="select_week_of">Please select week Off</string>
     <string name="select_pvc">Please select Date</string>
     <string name="set_week_of">Week Off updated successfully</string>
-    <string name="police_verification_date">Police Verification Expiry Date:</string>
+    <string name="police_verification_date">Police Verification Certificate Date:</string>
     <string name="reset_pvc_expiry_date">Reset PVC Expiry Date</string>
     <string name="police_verification">Police verification validity date</string>
     <string name="select_date">select Date</string>
@@ -40,6 +40,7 @@
     <string name="employee_id">Employee ID:</string>
     <string name="week_select">---Select week off day---</string>
     <string name="no_attendance_data_found">No attendance data found.</string>
+    <string name="cameraimage">Camera Flash Image</string>
 
     <string-array name="weekOff">
         <item>---Select week off day---</item>

@@ -23,17 +23,22 @@
 -keep class com.hktpl.attandanceqr.** {*;}
 -keepclassmembers class com.hktpl.attandanceqr.** { *; }
 -keep class com.hktpl.attandanceqr.ui.** {*;}
+-keep class com.hktpl.attandanceqr.ui.splash.** {*;}
+-keep class com.hktpl.attandanceqr.ui.main.** {*;}
+-keep class com.hktpl.attandanceqr.ui.register.** {*;}
+-keep class com.hktpl.attandanceqr.ui.history.** {*;}
+-keep class com.hktpl.attandanceqr.ui.profile.** {*;}
 -keep class com.hktpl.attandanceqr.adapter.** {*;}
 -keep class com.hktpl.attandanceqr.di.** {*;}
--keep class com.hktpl.attandanceqr.fragments.** {*;}
--keep class com.hktpl.attandanceqr.internet.** {*;}
--keep class com.hktpl.attandanceqr.internet.objects.** {*;}
+-keep class com.hktpl.attandanceqr.utils.internet.** {*;}
+-keep class com.hktpl.attandanceqr.utils.scanner.** {*;}
 -keep class com.hktpl.attandanceqr.models.** {*;}
 -keep class com.hktpl.attandanceqr.objects.** {*;}
 -keep class com.hktpl.attandanceqr.peferences.** {*;}
 -keep class com.hktpl.attandanceqr.services.** {*;}
--keep class com.hktpl.attandanceqr.viewModels.** {*;}
+-keep class com.hktpl.attandanceqr.utils.** {*;}
 -keep class com.hktpl.attandanceqr.di.repo.** {*;}
+-keep class com.google.android.gms.maps.** {*;}
 
 
 -keepclasseswithmembers class * {

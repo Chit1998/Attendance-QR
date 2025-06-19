@@ -20,30 +20,27 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.hktpl.attandanceqr.BaseActivity
 import com.hktpl.attandanceqr.R
 import com.hktpl.attandanceqr.databinding.ActivityMainBinding
 import com.hktpl.attandanceqr.peferences.UserPreferences
+import com.hktpl.attandanceqr.ui.ScannerActivity
 import com.hktpl.attandanceqr.ui.history.HistoryActivity
 import com.hktpl.attandanceqr.ui.profile.ProfileActivity
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanIntentResult
-import com.journeyapps.barcodescanner.ScanOptions
+import com.hktpl.attandanceqr.utils.scanner.QRListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() , OnMapReadyCallback {
+class MainActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMainBinding
     private lateinit var preferences: UserPreferences
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var staticLocation = LatLng(26.8566907, 75.8287823)
+    private var staticLocation: LatLng? = null
     private var siteOid = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,45 +66,24 @@ class MainActivity : BaseActivity() , OnMapReadyCallback {
             popupMenu.show()
         }
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
         binding.fabButton.setOnClickListener {
-            val scanOptions = ScanOptions()
-            scanOptions.setOrientationLocked(false)
-            scanOptions.setTorchEnabled(false)
-            scanOptions.setTimeout(10000)
-            scanOptions.setPrompt("Scan QR Code")
-            barcodeLauncher.launch(scanOptions)
+            openQRCode()
         }
     }
 
-    // Register the launcher and result handler
-    private val barcodeLauncher = registerForActivityResult(
-        ScanContract()
-    ) { result: ScanIntentResult ->
-//this code is for
-        if (result.contents == null) {
-            binding.mapGoogle.visibility = GONE
-            Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
-        }else{
-            try{
-                binding.mapGoogle.visibility = VISIBLE
-                val resultList = result.contents.split(",")
-                val siteLati = resultList[0].toDouble()
-                val siteLongi = resultList[1].toDouble()
-                siteOid = resultList[2].toLong()
-                staticLocation = LatLng(siteLati, siteLongi)
-                val mapFragment = supportFragmentManager.findFragmentById(R.id.mapGoogle) as SupportMapFragment
-                mapFragment.getMapAsync(this)
-            }catch (e: Exception){
-                Log.d(TAG, "barcodeException: ${e.message}")
-            }
+    private fun openQRCode() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED
+        ){
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                1
+            )
+            return
         }
-
+        startActivity(Intent(this, ScannerActivity::class.java))
     }
-
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         enableUserLocation()
@@ -117,7 +93,7 @@ class MainActivity : BaseActivity() , OnMapReadyCallback {
 
     private fun createSiteCircle(strokeColor: Int, fillColor: Int, radius: Double) {
         val circleOptions = CircleOptions()
-            .center(staticLocation)
+            .center(staticLocation!!)
             .radius(radius) // in meters
             .strokeColor(strokeColor)
             .fillColor(fillColor) // transparent fill
@@ -147,7 +123,7 @@ class MainActivity : BaseActivity() , OnMapReadyCallback {
 
                 // Add static marker
                 mMap.addMarker(
-                    MarkerOptions().position(staticLocation).title("Scan Point Location")
+                    MarkerOptions().position(staticLocation!!).title("Scan Point Location")
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location)) // your icon in drawable
                 )
 
@@ -155,8 +131,8 @@ class MainActivity : BaseActivity() , OnMapReadyCallback {
                 val distance = calculateDistance(
                     location.latitude,
                     location.longitude,
-                    staticLocation.latitude,
-                    staticLocation.longitude
+                    staticLocation!!.latitude,
+                    staticLocation!!.longitude
                 )
 //                Toast.makeText(this, "Distance: %.2f km".format(distance), Toast.LENGTH_LONG).show()
             }
@@ -173,5 +149,34 @@ class MainActivity : BaseActivity() , OnMapReadyCallback {
         Location.distanceBetween(lat1, lon1, lat2, lon2, results)
         return results[0] / 1000.0 // in kilometers
     }
+
+    companion object{
+        var obj: QRListener? = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        obj = object : QRListener{
+            override fun qrResults(result: String?) {
+                if (result!!.isEmpty()) {
+                    binding.mapGoogle.visibility = GONE
+                    Toast.makeText(this@MainActivity, "Cancelled", Toast.LENGTH_LONG).show()
+                }else{
+                    try{
+                        binding.mapGoogle.visibility = VISIBLE
+                        val resultList = result.split(",")
+                        val siteLatitude = resultList[0].toDouble()
+                        val siteLongitude = resultList[1].toDouble()
+                        siteOid = resultList[2].toLong()
+                        staticLocation = LatLng(siteLatitude, siteLongitude)
+                        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapGoogle) as SupportMapFragment
+                        mapFragment.getMapAsync(this@MainActivity)
+                    }catch (e: Exception){
+                        Log.d(TAG, "barcodeException: ${e.message}")
+                    }
+                }
+            }
+
+        }
+    }
 }
-// [18.5474829, 73.7510051, 12]
