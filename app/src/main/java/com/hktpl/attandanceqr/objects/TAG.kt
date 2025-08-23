@@ -16,6 +16,8 @@ object TAG {
     const val NAME = "name"
     const val PHONE = "phone"
     const val OID = "id"
+    const val LOCATION_STATUS = "locationStatus"
+    const val SITE_OID = "siteOid"
 
 
 //    permission codes

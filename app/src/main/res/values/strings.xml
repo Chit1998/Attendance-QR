@@ -41,6 +41,9 @@
     <string name="week_select">---Select week off day---</string>
     <string name="no_attendance_data_found">No attendance data found.</string>
     <string name="cameraimage">Camera Flash Image</string>
+    <string name="mark_attendance">Mark Attendance</string>
+    <string name="in_time_marked">IN-TIME marked.</string>
+    <string name="out_time_marked">OUT-TIME marked.</string>
 
     <string-array name="weekOff">
         <item>---Select week off day---</item>

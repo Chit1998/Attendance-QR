@@ -29,7 +29,7 @@ open class BaseActivity : AppCompatActivity(), ConnectivityListener {
     override fun onResume() {
         super.onResume()
         ConnectivityReceiver.connectivityListener = this
-        dialog = openInternetDialog()
+//        dialog = openInternetDialog()
     }
 
     private fun openInternetDialog(): AlertDialog {

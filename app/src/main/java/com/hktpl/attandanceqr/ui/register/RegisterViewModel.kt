@@ -31,7 +31,7 @@ class RegisterViewModel @Inject constructor(private val repositoryImpl: RestRepo
                     }
                 }
                 is Resource.Error->{
-                    _userData.value = RegisterState(error = "Somthing won't wrong.")
+                        _userData.value = RegisterState(error = "Somthing won't wrong.")
                 }
             }
         }

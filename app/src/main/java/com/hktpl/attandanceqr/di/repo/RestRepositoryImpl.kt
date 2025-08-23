@@ -4,7 +4,14 @@ import com.hktpl.attandanceqr.models.AttendanceMarkModelV1
 import com.hktpl.attandanceqr.models.PvcExpiryDateResetModel
 import com.hktpl.attandanceqr.models.PvcExpiryDateResetResponseModel
 import com.hktpl.attandanceqr.models.RegisterUserModel
+import com.hktpl.attandanceqr.models.ScanQR
+import com.hktpl.attandanceqr.models.ScanQRResponse
+import com.hktpl.attandanceqr.models.ScanResult
 import com.hktpl.attandanceqr.models.ShowWeekOffModel
+import com.hktpl.attandanceqr.models.StopTracking
+import com.hktpl.attandanceqr.models.StopTrackingResponse
+import com.hktpl.attandanceqr.models.UpdateLocation
+import com.hktpl.attandanceqr.models.UpdateLocationResponse
 import com.hktpl.attandanceqr.models.UserModel
 import com.hktpl.attandanceqr.models.WeekOffModel
 import com.hktpl.attandanceqr.models.WeekOffResponseModel
@@ -40,16 +47,7 @@ class RestRepositoryImpl @Inject constructor(private val api: ApiService) {
         }
     }
 
-//    suspend fun getRole(model: UserModel): Resource<UserModel.MsgModel>{
-//        return try {
-//            val result = api.getRole(model = model)
-//            Resource.Success(data = result)
-//        }catch (e: Exception){
-//            Resource.Error(msg = e.message.toString())
-//        }
-//    }
-
-    suspend fun markAttendance(model: AttendanceMarkModelV1): Resource<AttendanceMarkModelV1.ScanResult>{
+    suspend fun markAttendance(model: AttendanceMarkModelV1): Resource<ScanResult>{
         return try {
             val result = api.markAttendance(model = model)
             Resource.Success(data = result)
@@ -93,5 +91,33 @@ class RestRepositoryImpl @Inject constructor(private val api: ApiService) {
             Resource.Error(msg = e.message.toString())
         }
     }
+
+    suspend fun scanqr(model: ScanQR): Resource<ScanQRResponse>{
+        return try {
+            val result = api.scanqr(model = model)
+            Resource.Success(data = result)
+        }catch (e: Exception){
+            Resource.Error(msg = e.message.toString())
+        }
+    }
+
+    suspend fun updateLocation(model: UpdateLocation): Resource<UpdateLocationResponse>{
+        return try {
+            val result = api.updateLocation(model = model)
+            Resource.Success(data = result)
+        }catch (e: Exception){
+            Resource.Error(msg = e.message.toString())
+        }
+    }
+
+    suspend fun stopTracking(model: StopTracking): Resource<StopTrackingResponse>{
+        return try {
+            val result = api.stopTracking(model = model)
+            Resource.Success(data = result)
+        }catch (e: Exception){
+            Resource.Error(msg = e.message.toString())
+        }
+    }
+
     
 }
