@@ -44,7 +44,7 @@ object AppModule {
     fun getInstance(): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl(String(Base64.decode(getApiTest(),Base64.DEFAULT)))
+            .baseUrl(String(Base64.decode(getApi(),Base64.DEFAULT)))
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()

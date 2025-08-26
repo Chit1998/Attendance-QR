@@ -119,5 +119,4 @@ class RestRepositoryImpl @Inject constructor(private val api: ApiService) {
         }
     }
 
-    
 }

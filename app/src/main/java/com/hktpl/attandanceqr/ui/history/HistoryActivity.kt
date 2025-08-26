@@ -35,7 +35,7 @@ class HistoryActivity : BaseActivity() {
     }
     private fun attendances() {
         binding.swipeRefreshLayoutAllAttendance.isRefreshing = true
-        viewmodel.getAttendance(UserModel(preferences.getEmpId()))
+        viewmodel.getAttendance(UserModel(preferences.getOid()))
         viewmodel.historyData.observe(this) { response ->
             if (response != null){
                 if (response.isLoading){
@@ -67,7 +67,7 @@ class HistoryActivity : BaseActivity() {
                         val adapter = AttendanceAdapter(response.data)
                         binding.recyclerViewAllAttendance.adapter = adapter
                         binding.recyclerViewAllAttendance.visibility = VISIBLE
-                        binding.txtNoData.visibility = VISIBLE
+                        binding.txtNoData.visibility = GONE
                     }
                 }
             }

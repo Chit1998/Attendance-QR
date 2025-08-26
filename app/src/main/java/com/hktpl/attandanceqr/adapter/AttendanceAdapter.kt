@@ -32,8 +32,8 @@ class AttendanceAdapter(
                 val date = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date(this.inTime!!))
                 val inTime = SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Date(this.inTime))
 
-                val outTime: String = if (this.outTime != null && this.outTime > 0) {
-                    val date = Date(this.outTime)
+                val outTime: String = if (this.outTime != null && this.outTime.toLong() > 0) {
+                    val date = Date(this.outTime.toLong())
                     val dtFormater = SimpleDateFormat("hh:mm aa")
                     dtFormater.format(date)
                 } else {

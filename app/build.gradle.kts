@@ -17,8 +17,8 @@ android {
         minSdk = 23
         //noinspection EditedTargetSdkVersion
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.3"
+        versionCode = 4
+        versionName = "1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,11 +54,11 @@ android {
         dataBinding = true
     }
 
-    ndkVersion = "29.0.13599879"
+    ndkVersion = "29.0.13846066"
 
     externalNativeBuild {
         cmake {
-            version = "4.0.2"
+            version = "4.1.0"
         }
         ndkBuild {
             path("src/main/jni/Android.mk") //path of Android.mk file

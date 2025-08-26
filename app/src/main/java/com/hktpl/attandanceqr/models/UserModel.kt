@@ -28,7 +28,7 @@ data class UserModel(
         @SerializedName("inTime")
         val inTime: Long?,
         @SerializedName("outTime")
-        val outTime: Long,
+        val outTime: String?,
         @SerializedName("dated")
         val dated: Long?,
         @SerializedName("markedBy")
@@ -38,7 +38,7 @@ data class UserModel(
         @SerializedName("inSite")
         val inSite: String?,
         @SerializedName("outSite")
-        val outSite: String?
+        val outSite: String? = null
     )
 
     data class MsgModel(
