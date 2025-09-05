@@ -5,7 +5,6 @@ import android.media.SoundPool
 import androidx.camera.core.Camera
 import com.hktpl.attandanceqr.R
 
-
 open class ScannerOptions(val camera: Camera? = null): CameraInfos{
     private var soundId: Int = 0
     override fun cameraTorch(boolean: Boolean) {

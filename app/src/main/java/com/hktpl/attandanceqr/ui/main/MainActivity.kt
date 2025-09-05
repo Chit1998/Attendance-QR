@@ -182,6 +182,8 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
                                     preferences.setLocationStatus(false)
                                     mainViewModel.stopTracking(StopTracking(preferences.getOid()!!.toLong()))
                                 }
+                            }else{
+                                Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -268,7 +270,6 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
                 }
             }
         }
-
     }
 
     override fun onResume() {
@@ -337,7 +338,31 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onPause() {
         if (preferences.getLocationStatus() ==  true){
-            startLocationService()
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(
+                            Manifest.permission.FOREGROUND_SERVICE_LOCATION
+                        ),
+                        100
+                    )
+                }else{
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ),
+                        100
+                    )
+                }
+            } else {
+                startLocationService()
+            }
         }else{
             stopLocationService()
         }
@@ -401,7 +426,7 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     private fun openAttendanceDialog(message: String){
-        val dialogBinding = AttendanceMarkDialogBinding.inflate(layoutInflater)
+        val dialogBinding = AttendanceMarkDialogBinding.inflate(layoutInflater, null, false)
         val builder = AlertDialog.Builder(this)
         builder.setView(dialogBinding.root)
         val dialog = builder.create()
@@ -421,7 +446,31 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
 
         dialogBinding.btnOk.setOnClickListener {
             if (preferences.getLocationStatus() ==  true){
-                startLocationService()
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                        ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(
+                                Manifest.permission.FOREGROUND_SERVICE_LOCATION
+                            ),
+                            100
+                        )
+                    }else{
+                        ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            ),
+                            100
+                        )
+                    }
+                } else {
+                    startLocationService()
+                }
             }
             dialog.dismiss()
             dialog.cancel()

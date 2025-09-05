@@ -1,5 +1,6 @@
 package com.hktpl.attandanceqr.services
 
+import com.hktpl.attandanceqr.models.AttendanceDataModel
 import com.hktpl.attandanceqr.models.AttendanceMarkModelV1
 import com.hktpl.attandanceqr.models.PvcExpiryDateResetModel
 import com.hktpl.attandanceqr.models.PvcExpiryDateResetResponseModel
@@ -28,7 +29,7 @@ interface ApiService {
     suspend fun getUserInfo(@Body model: UserModel): UserModel.EmployeeInfoModel?
 
     @POST("attendance")
-    suspend fun getAttendance(@Body model: UserModel): MutableList<UserModel.AttendanceDataModel>
+    suspend fun getAttendance(@Body model: UserModel): MutableList<AttendanceDataModel>
 
     @PUT("markAttendance")
     suspend fun markAttendance(@Body model: AttendanceMarkModelV1): ScanResult

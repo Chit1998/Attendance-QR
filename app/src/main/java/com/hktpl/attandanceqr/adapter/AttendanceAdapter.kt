@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.hktpl.attandanceqr.databinding.RvAttendanceViewLayoutBinding
+import com.hktpl.attandanceqr.models.AttendanceDataModel
 import com.hktpl.attandanceqr.models.UserModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class AttendanceAdapter(
-    private val list: MutableList<UserModel.AttendanceDataModel>
+    private val list: MutableList<AttendanceDataModel>
 ) : Adapter<AttendanceAdapter.AttendanceViewHolder>(){
     inner class AttendanceViewHolder(val binding: RvAttendanceViewLayoutBinding) : ViewHolder(binding.root)
 

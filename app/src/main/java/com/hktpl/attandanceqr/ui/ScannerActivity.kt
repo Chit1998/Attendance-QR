@@ -1,6 +1,7 @@
 package com.hktpl.attandanceqr.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.camera.core.Camera
@@ -95,19 +96,24 @@ class ScannerActivity : BaseActivity() {
                 }
             }
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-            cameraProvider.unbindAll()
-            camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer)
-            scannerOptions = ScannerOptions(camera)
-            binding.imgFlash.setOnClickListener {
-                if (flash == false){
-                    flash = true
-                    scannerOptions.cameraTorch(true)
-                    binding.imgFlash.setImageResource(R.drawable.flash_off_rounded)
-                }else{
-                    flash = false
-                    scannerOptions.cameraTorch(false)
-                    binding.imgFlash.setImageResource(R.drawable.flash_on_rounded)
+            try{
+                cameraProvider.unbindAll()
+                camera =
+                    cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer)
+                scannerOptions = ScannerOptions(camera)
+                binding.imgFlash.setOnClickListener {
+                    if (flash == false) {
+                        flash = true
+                        scannerOptions.cameraTorch(true)
+                        binding.imgFlash.setImageResource(R.drawable.flash_off_rounded)
+                    } else {
+                        flash = false
+                        scannerOptions.cameraTorch(false)
+                        binding.imgFlash.setImageResource(R.drawable.flash_on_rounded)
+                    }
                 }
+            }catch (e: Exception){
+                Log.d(TAG, "startCamera: ${e.message}")
             }
         }, ContextCompat.getMainExecutor(this))
     }

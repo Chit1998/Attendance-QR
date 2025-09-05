@@ -24,25 +24,25 @@ data class UserModel(
         val reason: String?,
     ): Serializable
 
-    data class AttendanceDataModel(
-        @SerializedName("inTime")
-        val inTime: Long?,
-        @SerializedName("outTime")
-        val outTime: String?,
-        @SerializedName("dated")
-        val dated: Long?,
-        @SerializedName("markedBy")
-        val markedBy: String?,
-        @SerializedName("reason")
-        val reason: String?,
-        @SerializedName("inSite")
-        val inSite: String?,
-        @SerializedName("outSite")
-        val outSite: String? = null
-    )
-
     data class MsgModel(
         @SerializedName("message")
         val message: String?
     ):Serializable
 }
+
+data class AttendanceDataModel(
+    @SerializedName("inTime")
+    val inTime: Long?,
+    @SerializedName("outTime")
+    val outTime: String?,
+    @SerializedName("dated")
+    val dated: Long?,
+    @SerializedName("markedBy")
+    val markedBy: String?,
+    @SerializedName("reason")
+    val reason: String?,
+    @SerializedName("inSite")
+    val inSite: String?,
+    @SerializedName("outSite")
+    val outSite: String? = null
+): Serializable

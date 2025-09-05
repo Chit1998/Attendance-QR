@@ -7,7 +7,6 @@ object TAG {
     external fun getApi() : String
     external fun getApiTest() : String
 
-
     const val FOUND = "USER FOUND"
 
 //    TODO Preferences

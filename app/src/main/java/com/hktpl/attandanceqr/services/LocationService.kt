@@ -50,7 +50,6 @@ class LocationService : Service(){
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(1, createNotification())
         startLocationUpdates()
-
         return START_STICKY
     }
 
@@ -64,7 +63,7 @@ class LocationService : Service(){
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
                     val currentTime = System.currentTimeMillis()
-                    if (currentTime - lastApiCallTime >= 1 * 60 * 1000) { // 5 minutes
+                    if (currentTime - lastApiCallTime >= 3 * 60 * 1000) { // 3 minutes
                         lastApiCallTime = currentTime
                         CoroutineScope(Dispatchers.IO).launch {
                             try {
@@ -119,6 +118,8 @@ class LocationService : Service(){
 
     override fun onDestroy() {
         super.onDestroy()
-        fusedLocationClient.removeLocationUpdates(locationCallback)
+        if (::locationCallback.isInitialized) {
+            fusedLocationClient.removeLocationUpdates(locationCallback)
+        }
     }
 }

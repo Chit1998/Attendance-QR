@@ -1,5 +1,6 @@
 package com.hktpl.attandanceqr.di.repo
 
+import com.hktpl.attandanceqr.models.AttendanceDataModel
 import com.hktpl.attandanceqr.models.AttendanceMarkModelV1
 import com.hktpl.attandanceqr.models.PvcExpiryDateResetModel
 import com.hktpl.attandanceqr.models.PvcExpiryDateResetResponseModel
@@ -38,7 +39,7 @@ class RestRepositoryImpl @Inject constructor(private val api: ApiService) {
         }
     }
 
-    suspend fun getAttendance(model: UserModel): Resource<MutableList<UserModel.AttendanceDataModel>>{
+    suspend fun getAttendance(model: UserModel): Resource<MutableList<AttendanceDataModel>>{
         return try {
             val result = api.getAttendance(model = model)
             Resource.Success(data = result)

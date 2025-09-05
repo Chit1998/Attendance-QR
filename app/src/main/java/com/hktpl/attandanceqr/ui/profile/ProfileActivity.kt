@@ -280,7 +280,7 @@ class ProfileActivity : BaseActivity() {
                         try {
                             binding2.txtSelectDate.text = "$dayOfMonth-${monthOfYear+1}-$mYear"
                             val format = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                            time = format.parse("$dayOfMonth-$monthOfYear-$mYear")?.time!!
+                            time = format.parse("$dayOfMonth-${monthOfYear+1}-$mYear")?.time!!
                         }catch (e: ParseException){
                             Log.e(TAG, "onCreate: ${e.message}")
                         }
