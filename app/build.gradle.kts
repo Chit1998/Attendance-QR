@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -15,7 +17,6 @@ android {
     defaultConfig {
         applicationId = "com.hktpl.attandanceqr"
         minSdk = 23
-        //noinspection EditedTargetSdkVersion
         targetSdk = 36
         versionCode = 4
         versionName = "1.4"
@@ -45,20 +46,23 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
     }
 
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 
-    ndkVersion = "29.0.13846066"
+    ndkVersion = "29.0.14033849"
 
     externalNativeBuild {
         cmake {
-            version = "4.1.0"
+            version = "4.1.1"
         }
         ndkBuild {
             path("src/main/jni/Android.mk") //path of Android.mk file

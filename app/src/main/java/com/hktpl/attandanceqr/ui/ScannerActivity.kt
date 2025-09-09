@@ -42,7 +42,7 @@ class ScannerActivity : BaseActivity() {
             override fun run() {
                 finish()
             }
-        },50000)
+        },10000)
     }
 
     override fun onPause() {

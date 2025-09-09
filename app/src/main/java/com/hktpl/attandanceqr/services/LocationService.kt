@@ -99,7 +99,7 @@ class LocationService : Service(){
         val channelId = "location_channel"
         val channel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel(
-                channelId, "Location Updates", NotificationManager.IMPORTANCE_LOW
+                channelId, "Location Updates", NotificationManager.IMPORTANCE_HIGH
             )
         } else {
             TODO("VERSION.SDK_INT < O")
@@ -110,7 +110,7 @@ class LocationService : Service(){
         return NotificationCompat.Builder(this, channelId)
             .setContentTitle("Location Service")
             .setContentText("Tracking location in background")
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.humankind_logo)
             .build()
     }
 

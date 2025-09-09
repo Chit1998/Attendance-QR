@@ -75,6 +75,12 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
         binding.userData = preferences
         binding.txtAppVersion.text = appVersion
         binding.txtClock.text = Calendar.DATE.toString()
+//        // Blur effect for Android 12+ (improved in Android 16) fragments
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//            container.setRenderEffect(
+//                RenderEffect.createBlurEffect(20f, 20f, Shader.TileMode.CLAMP)
+//            )
+//        }
         binding.imgMenu.setOnClickListener {
             val popupMenu = PopupMenu(it.context,binding.imgMenu)
             popupMenu.menu.add("My Profile")

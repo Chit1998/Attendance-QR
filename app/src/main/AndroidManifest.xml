@@ -71,8 +71,7 @@
             android:name=".services.LocationService"
             android:enabled="true"
             android:exported="false"
-            android:foregroundServiceType="location"
-            tools:ignore="ForegroundServicePermission" />
+            android:foregroundServiceType="location" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -91,8 +90,7 @@
         <receiver
             android:name=".utils.internet.ConnectivityReceiver"
             android:enabled="true"
-            android:exported="true"
-            android:foregroundServiceType="location">
+            android:exported="true">
             <intent-filter>
                 <action
                     android:name="android.net.conn.CONNECTIVITY_CHANGE"

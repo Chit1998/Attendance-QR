@@ -14,7 +14,6 @@ import com.hktpl.attandanceqr.utils.internet.ConnectivityReceiver
 open class BaseActivity : AppCompatActivity(), ConnectivityListener {
 
     var internetStatus: Boolean = false
-    var dialog: AlertDialog? = null
     var appVersion = ""
     companion object{
         const val TAG = "baseActivity"

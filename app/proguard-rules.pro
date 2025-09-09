@@ -38,6 +38,8 @@
 -keep class com.hktpl.attandanceqr.services.** {*;}
 -keep class com.hktpl.attandanceqr.utils.** {*;}
 -keep class com.hktpl.attandanceqr.di.repo.** {*;}
+-keep class com.google.android.gms.** { *; }
+-keep class com.google.android.gms.internal.** { *; }
 -keep class com.google.android.gms.maps.** {*;}
 
 
@@ -55,6 +57,7 @@
 -keep class * implements com.google.gson.TypeAdapterFactory
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
+-dontwarn com.google.android.gms.internal.**
 
 -keepclasseswithmembers class * {
     <init>(...);
