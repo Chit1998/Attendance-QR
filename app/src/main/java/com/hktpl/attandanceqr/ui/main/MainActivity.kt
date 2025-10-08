@@ -62,7 +62,7 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationManager: LocationManager
     private lateinit var locationRequest: LocationRequest
-    private var staticLocation: LatLng? = null
+//    private var staticLocation: LatLng? = null
     private var siteGateOid = 0L
     private var numberColor: Int = 0
     private var currentCircle: Circle? = null
@@ -126,76 +126,100 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun createSiteCircle(
         googleMap: GoogleMap?,
-        latLng: LatLng,
         scanQRResponse: ScanQRResponse,
         userLatLng: LatLng
     ) {
-        currentCircle?.remove()
-        if (numberColor == 0){
-            val circleOptions = CircleOptions()
-                .center(latLng)
-                .radius(scanQRResponse.radius!!.toDouble()) // in meters
-                .strokeColor(Color.BLUE)
-                .fillColor(0x220000FF) // transparent fill
-                .strokeWidth(2f)
-            currentCircle = googleMap?.addCircle(circleOptions)
-        }else {
-            val circleOptions = CircleOptions()
-                .center(latLng)
-                .radius(scanQRResponse.radius!!.toDouble()) // in meters
-                .strokeColor(Color.GREEN)
-                .fillColor("#2250EF55".toColorInt())
-                .strokeWidth(2f)
-            currentCircle = googleMap?.addCircle(circleOptions)
-            if (numberColor == 1){
-                numberColor = 2
-                mainViewModel.attendance(
-                    AttendanceMarkModelV1(
-                        preferences.getOid(),
-                        scanQRResponse.siteGateOid,
-                        userLatLng.latitude,
-                        userLatLng.longitude
-                    )
-                )
-                mainViewModel.attendanceData.observe(this){ response ->
-                    if (response != null){
-                        if (response.isLoading){
-                            binding.progressBarMain.visibility = VISIBLE
-                            binding.progressBarMain.progress
-                        }
-                        if (response.error!!.isNotEmpty()){
-                            binding.progressBarMain.visibility = GONE
-                            if (internetStatus) {
-                                Toast.makeText(this, "${mainViewModel.scanQRData.value?.error}", Toast.LENGTH_SHORT).show()
-                            }else {
-                                Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                        
-                        if (response.data != null){
-                            binding.progressBarMain.visibility = GONE
-                            if (internetStatus) {
-                                openAttendanceDialog(response.data.message.toString())
-                                if (response.data.message == getString(R.string.in_time_marked)){
-                                    if (response.data.locationTrackingEnabled!!){
-                                        preferences.setSiteOid(response.data.siteOid.toString())
-                                        preferences.setLocationStatus(true)
-                                    }else{
-                                        preferences.setLocationStatus(false)
-                                    }
-                                }else{
-                                    stopLocationService()
-                                    preferences.setLocationStatus(false)
-                                    mainViewModel.stopTracking(StopTracking(preferences.getOid()!!.toLong()))
-                                }
-                            }else{
-                                Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    }
-                }
+//        todo re-work start
+        // Calculate distance
+        val distance = calculateDistance(
+            userLatLng.latitude,
+            userLatLng.longitude,
+            scanQRResponse.latitude!!.toDouble(),
+            scanQRResponse.longituded!!.toDouble()
+        )
+        if (distance <= scanQRResponse.radius!!.toFloat()) {
+            Toast.makeText(this, distance.toString(), Toast.LENGTH_SHORT).show()
+            if (numberColor != 2){
+                numberColor = 1
+
             }
+        } else {
+            numberColor = 0
+            Log.d(TAG, "Distance: $distance")
         }
+        currentCircle?.remove()
+//        if (numberColor == 0){
+//            val circleOptions = CircleOptions()
+//                .center(
+//                    LatLng(scanQRResponse.latitude.toDouble(),
+//                    scanQRResponse.longituded.toDouble())
+//                )
+//                .radius(scanQRResponse.radius.toDouble()) // in meters
+//                .strokeColor(Color.BLUE)
+//                .fillColor(0x220000FF) // transparent fill
+//                .strokeWidth(2f)
+//            currentCircle = googleMap?.addCircle(circleOptions)
+//        }
+//        else {
+//            val circleOptions = CircleOptions()
+//                .center(
+//                    LatLng(scanQRResponse.latitude.toDouble(),
+//                        scanQRResponse.longituded.toDouble()))
+//                .radius(scanQRResponse.radius.toDouble()) // in meters
+//                .strokeColor(Color.GREEN)
+//                .fillColor("#2250EF55".toColorInt())
+//                .strokeWidth(2f)
+//            currentCircle = googleMap?.addCircle(circleOptions)
+//            if (numberColor == 1){
+//                numberColor = 2
+//                mainViewModel.attendance(
+//                    AttendanceMarkModelV1(
+//                        preferences.getOid(),
+//                        scanQRResponse.siteGateOid,
+//                        userLatLng.latitude,
+//                        userLatLng.longitude
+//                    )
+//                )
+//                mainViewModel.attendanceData.observe(this){ response ->
+//                    if (response != null){
+//                        if (response.isLoading){
+//                            binding.progressBarMain.visibility = VISIBLE
+//                            binding.progressBarMain.progress
+//                        }
+//                        if (response.error!!.isNotEmpty()){
+//                            binding.progressBarMain.visibility = GONE
+//                            if (internetStatus) {
+//                                Toast.makeText(this, "${mainViewModel.scanQRData.value?.error}", Toast.LENGTH_SHORT).show()
+//                            }else {
+//                                Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//
+//                        if (response.data != null){
+//                            binding.progressBarMain.visibility = GONE
+//                            if (internetStatus) {
+//                                openAttendanceDialog(response.data.message.toString())
+//                                if (response.data.message == getString(R.string.in_time_marked)){
+//                                    if (response.data.locationTrackingEnabled!!){
+//                                        preferences.setSiteOid(response.data.siteOid.toString())
+//                                        preferences.setLocationStatus(true)
+//                                    }else{
+//                                        preferences.setLocationStatus(false)
+//                                    }
+//                                }else{
+//                                    stopLocationService()
+//                                    preferences.setLocationStatus(false)
+//                                    mainViewModel.stopTracking(StopTracking(preferences.getOid()!!.toLong()))
+//                                }
+//                            }else{
+//                                Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        todo re-work end
     }
 
     private fun enableUserLocation(latitude: Double, longitude: Double) {
@@ -213,69 +237,53 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
         mMap?.isMyLocationEnabled = true
         val userLatLng = LatLng(latitude, longitude)
         mMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 17f))
-        if (staticLocation != null){
-            // Calculate distance
-            val distance = calculateDistance(
-                latitude,
-                longitude,
-                staticLocation!!.latitude,
-                staticLocation!!.longitude
-            )
-            // Add static marker
-            mMap?.addMarker(
-                MarkerOptions().position(staticLocation!!).title("Scan Point Location")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location)) // your icon in drawable
-            )
-
-            mainViewModel.scanQR(ScanQR(siteGateOid))
-            mainViewModel.scanQRData.observe(this) { response->
-                if (response != null){
-                    if (response.isLoading){
-                        binding.progressBarMain.visibility = VISIBLE
-                        binding.progressBarMain.progress
+//       todo re-work start
+        mainViewModel.scanQR(ScanQR(siteGateOid))
+//        if (staticLocation != null){ }
+        mainViewModel.scanQRData.observe(this) { response->
+            if (response != null){
+                if (response.isLoading){
+                    binding.progressBarMain.visibility = VISIBLE
+                    binding.progressBarMain.progress
+                }
+                if (response.error!!.isNotEmpty()){
+                    binding.progressBarMain.visibility = GONE
+                    if (internetStatus) {
+                        Toast.makeText(this, "${mainViewModel.scanQRData.value?.error}", Toast.LENGTH_SHORT).show()
+                    }else {
+                        Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
                     }
-                    if (response.error!!.isNotEmpty()){
-                        binding.progressBarMain.visibility = GONE
-                        if (internetStatus) {
-                            Toast.makeText(this, "${mainViewModel.scanQRData.value?.error}", Toast.LENGTH_SHORT).show()
-                        }else {
-                            Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                }
 
-                    if (response.data != null){
-                        binding.progressBarMain.visibility = GONE
-                        if (internetStatus) {
-                            if(response.data.success){
-                                if (distance <= response.data.radius!!.toFloat()) {
-                                    if (numberColor != 2){
-                                        numberColor = 1
-                                        createSiteCircle(
+                if (response.data != null){
+                    binding.progressBarMain.visibility = GONE
+                    if (internetStatus) {
+                        if(response.data.success){
+                            // Add static marker
+                            mMap?.addMarker(
+                                MarkerOptions().position(
+                                    LatLng(
+                                    response.data.latitude!!.toDouble(),
+                                    response.data.longituded!!.toDouble()
+                                    )
+                                ).title("Scan Point Location")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location)) // your icon in drawable
+                            )
+                            createSiteCircle(
                                             mMap,
-                                            staticLocation!!,
                                             response.data,
                                             userLatLng
                                         )
-                                    }
-                                } else {
-                                    numberColor = 0
-                                    createSiteCircle(
-                                        mMap,
-                                        staticLocation!!,
-                                        response.data,
-                                        userLatLng
-                                    )
-                                }
-                            }else{
-                                Toast.makeText(this, response.data.message, Toast.LENGTH_SHORT).show()
-                            }
                         }else{
-                            Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, response.data.message, Toast.LENGTH_SHORT).show()
                         }
+                    }else{
+                        Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
+//            todo re-work end
     }
 
     override fun onResume() {
@@ -309,10 +317,10 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun markAttendance(result: String) {
         val resultList = result.split(",")
-        val siteLatitude = resultList[0].toDouble()
-        val siteLongitude = resultList[1].toDouble()
+//        val siteLatitude = resultList[0].toDouble()
+//        val siteLongitude = resultList[1].toDouble()
         siteGateOid = resultList[2].toLong()
-        staticLocation = LatLng(siteLatitude, siteLongitude)
+//        staticLocation = LatLng(siteLatitude, siteLongitude)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapGoogle) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
@@ -332,7 +340,8 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
+    )
+    { isGranted ->
         if (isGranted) {
             // Permission granted
             checkGpsStatus()
@@ -374,6 +383,7 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
         }
         super.onPause()
     }
+
     private fun checkGpsStatus() {
         val locationManager =
             getSystemService(LOCATION_SERVICE) as LocationManager
@@ -407,8 +417,6 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
     private val locationCallBack = object : LocationCallback(){
         override fun onLocationResult(p0: LocationResult) {
             super.onLocationResult(p0)
-//            lat = p0.lastLocation!!.latitude
-//            lon = p0.lastLocation!!.longitude
             enableUserLocation(p0.lastLocation!!.latitude,p0.lastLocation!!.longitude)
         }
     }

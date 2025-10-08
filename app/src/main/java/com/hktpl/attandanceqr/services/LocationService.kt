@@ -55,7 +55,7 @@ class LocationService : Service(){
 
     private fun startLocationUpdates() {
         val locationRequest = LocationRequest.Builder(
-            Priority.PRIORITY_HIGH_ACCURACY,
+            Priority.PRIORITY_BALANCED_POWER_ACCURACY,
             5000L
         ).setMinUpdateIntervalMillis(2000L).build()
 
