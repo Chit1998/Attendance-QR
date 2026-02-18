@@ -240,49 +240,48 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
 //       todo re-work start
         mainViewModel.scanQR(ScanQR(siteGateOid))
 //        if (staticLocation != null){ }
-        mainViewModel.scanQRData.observe(this) { response->
-            if (response != null){
-                if (response.isLoading){
-                    binding.progressBarMain.visibility = VISIBLE
-                    binding.progressBarMain.progress
-                }
-                if (response.error!!.isNotEmpty()){
-                    binding.progressBarMain.visibility = GONE
-                    if (internetStatus) {
-                        Toast.makeText(this, "${mainViewModel.scanQRData.value?.error}", Toast.LENGTH_SHORT).show()
-                    }else {
-                        Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                if (response.data != null){
-                    binding.progressBarMain.visibility = GONE
-                    if (internetStatus) {
-                        if(response.data.success){
-                            // Add static marker
-                            mMap?.addMarker(
-                                MarkerOptions().position(
-                                    LatLng(
-                                    response.data.latitude!!.toDouble(),
-                                    response.data.longituded!!.toDouble()
-                                    )
-                                ).title("Scan Point Location")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location)) // your icon in drawable
-                            )
-                            createSiteCircle(
-                                            mMap,
-                                            response.data,
-                                            userLatLng
-                                        )
-                        }else{
-                            Toast.makeText(this, response.data.message, Toast.LENGTH_SHORT).show()
-                        }
-                    }else{
-                        Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
+//        mainViewModel.scanQRData.observe(this) { response->
+//            if (response != null){
+//                if (response.isLoading){
+//                    binding.progressBarMain.visibility = VISIBLE
+//                    binding.progressBarMain.progress
+//                }
+//                if (response.error!!.isNotEmpty()){
+//                    binding.progressBarMain.visibility = GONE
+//                    if (internetStatus) {
+//                        Toast.makeText(this, "${mainViewModel.scanQRData.value?.error}", Toast.LENGTH_SHORT).show()
+//                    }else {
+//                        Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//                if (response.data != null){
+//                    binding.progressBarMain.visibility = GON
+//                    if (internetStatus) {
+//                        if(response.data.success){
+//                            // Add static marker
+//                            mMap?.addMarker(
+//                                MarkerOptions().position(
+//                                    LatLng(
+//                                    response.data.latitude!!.toDouble(),
+//                                    response.data.longituded!!.toDouble()
+//                                    )
+//                                ).title("Scan Point Location")
+//                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location)) // your icon in drawable
+//                            )
+//                            createSiteCircle(
+//                                            mMap,
+//                                            response.data,
+//                                            userLatLng
+//                                        )
+//                        }else{
+//                            Toast.makeText(this, response.data.message, Toast.LENGTH_SHORT).show()
+//                        }
+//                    }else{
+//                        Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        }
 //            todo re-work end
     }
 
@@ -351,38 +350,38 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
         }
     }
 
-    override fun onPause() {
-        if (preferences.getLocationStatus() ==  true){
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                    ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(
-                            Manifest.permission.FOREGROUND_SERVICE_LOCATION
-                        ),
-                        100
-                    )
-                }else{
-                    ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ),
-                        100
-                    )
-                }
-            } else {
-                startLocationService()
-            }
-        }else{
-            stopLocationService()
-        }
-        super.onPause()
-    }
+//    override fun onPause() {
+//        if (preferences.getLocationStatus() ==  true){
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+//                    ActivityCompat.requestPermissions(
+//                        this,
+//                        arrayOf(
+//                            Manifest.permission.FOREGROUND_SERVICE_LOCATION
+//                        ),
+//                        100
+//                    )
+//                }else{
+//                    ActivityCompat.requestPermissions(
+//                        this,
+//                        arrayOf(
+//                            Manifest.permission.ACCESS_FINE_LOCATION
+//                        ),
+//                        100
+//                    )
+//                }
+//            } else {
+//                startLocationService()
+//            }
+//        }else{
+//            stopLocationService()
+//        }
+//        super.onPause()
+//    }
 
     private fun checkGpsStatus() {
         val locationManager =
@@ -439,56 +438,56 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
         stopService(intent)
     }
 
-    private fun openAttendanceDialog(message: String){
-        val dialogBinding = AttendanceMarkDialogBinding.inflate(layoutInflater, null, false)
-        val builder = AlertDialog.Builder(this)
-        builder.setView(dialogBinding.root)
-        val dialog = builder.create()
-        dialog.setCancelable(false)
-
-        dialogBinding.tvTitle.text = message
-        if (message == getString(R.string.in_time_marked)){
-            dialogBinding.ivSuccess.visibility = VISIBLE
-            dialogBinding.ivCancel.visibility = GONE
-        }else if (message == getString(R.string.out_time_marked)){
-            dialogBinding.ivSuccess.visibility = VISIBLE
-            dialogBinding.ivCancel.visibility = GONE
-        }else {
-            dialogBinding.ivCancel.visibility = VISIBLE
-            dialogBinding.ivSuccess.visibility = GONE
-        }
-
-        dialogBinding.btnOk.setOnClickListener {
-            if (preferences.getLocationStatus() ==  true){
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                        ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(
-                                Manifest.permission.FOREGROUND_SERVICE_LOCATION
-                            ),
-                            100
-                        )
-                    }else{
-                        ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(
-                                Manifest.permission.ACCESS_FINE_LOCATION
-                            ),
-                            100
-                        )
-                    }
-                } else {
-                    startLocationService()
-                }
-            }
-            dialog.dismiss()
-            dialog.cancel()
-        }
-        dialog.show()
-    }
+//    private fun openAttendanceDialog(message: String){
+//        val dialogBinding = AttendanceMarkDialogBinding.inflate(layoutInflater, null, false)
+//        val builder = AlertDialog.Builder(this)
+//        builder.setView(dialogBinding.root)
+//        val dialog = builder.create()
+//        dialog.setCancelable(false)
+//
+//        dialogBinding.tvTitle.text = message
+//        if (message == getString(R.string.in_time_marked)){
+//            dialogBinding.ivSuccess.visibility = VISIBLE
+//            dialogBinding.ivCancel.visibility = GONE
+//        }else if (message == getString(R.string.out_time_marked)){
+//            dialogBinding.ivSuccess.visibility = VISIBLE
+//            dialogBinding.ivCancel.visibility = GONE
+//        }else {
+//            dialogBinding.ivCancel.visibility = VISIBLE
+//            dialogBinding.ivSuccess.visibility = GONE
+//        }
+//
+//        dialogBinding.btnOk.setOnClickListener {
+//            if (preferences.getLocationStatus() ==  true){
+//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                    != PackageManager.PERMISSION_GRANTED ||
+//                    ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_LOCATION)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+//                        ActivityCompat.requestPermissions(
+//                            this,
+//                            arrayOf(
+//                                Manifest.permission.FOREGROUND_SERVICE_LOCATION
+//                            ),
+//                            100
+//                        )
+//                    }else{
+//                        ActivityCompat.requestPermissions(
+//                            this,
+//                            arrayOf(
+//                                Manifest.permission.ACCESS_FINE_LOCATION
+//                            ),
+//                            100
+//                        )
+//                    }
+//                } else {
+//                    startLocationService()
+//                }
+//            }
+//            dialog.dismiss()
+//            dialog.cancel()
+//        }
+//        dialog.show()
+//    }
 }
