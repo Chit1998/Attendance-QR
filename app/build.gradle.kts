@@ -43,16 +43,16 @@ android {
         viewBinding = true
     }
 
-    ndkVersion = "29.0.13599879"
-
-    externalNativeBuild {
-        cmake {
-            version = "4.0.2"
-        }
-        ndkBuild {
-            path("src/main/jni/Android.mk") //path of Android.mk file
-        }
-    }
+//    ndkVersion = "29.0.13599879"
+//
+//    externalNativeBuild {
+//        cmake {
+//            version = "4.0.2"
+//        }
+//        ndkBuild {
+//            path("src/main/jni/Android.mk") //path of Android.mk file
+//        }
+//    }
 }
 
 dependencies {
