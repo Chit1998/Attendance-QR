@@ -58,16 +58,16 @@ android {
         buildConfig = true
     }
 
-    ndkVersion = "29.0.14033849"
-
-    externalNativeBuild {
-        cmake {
-            version = "4.1.1"
-        }
-        ndkBuild {
-            path("src/main/jni/Android.mk") //path of Android.mk file
-        }
-    }
+//    ndkVersion = "29.0.14033849"
+//
+//    externalNativeBuild {
+//        cmake {
+//            version = "4.1.1"
+//        }
+//        ndkBuild {
+//            path("src/main/jni/Android.mk") //path of Android.mk file
+//        }
+//    }
 }
 
 dependencies {

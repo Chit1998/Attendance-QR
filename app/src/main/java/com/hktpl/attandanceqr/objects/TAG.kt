@@ -1,11 +1,12 @@
 package com.hktpl.attandanceqr.objects
 
 object TAG {
-    init {
-        System.loadLibrary("apikey")
-    }
-    external fun getApi() : String
-    external fun getApiTest() : String
+//    init {
+//        System.loadLibrary("apikey")
+//    }
+//    external fun getApi() : String
+//    external fun getApiTest() : String
+    const val BASE_URL_TEST = "aHR0cHM6Ly9xcmRhdGVzdC5oa3RwbC5jb20vcXJkYS9yZXN0L2VtcC8="
 
     const val FOUND = "USER FOUND"
 
