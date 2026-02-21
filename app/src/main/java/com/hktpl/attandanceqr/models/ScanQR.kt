@@ -12,6 +12,6 @@ data class ScanQRResponse(
     val siteGateOid: Long?,
     val siteGateName: String?,
     val latitude: String?,
-    val longituded: String?,
+    val longitude: String?,
     val radius: String?,
 ): Serializable

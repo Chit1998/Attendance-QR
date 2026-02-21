@@ -65,7 +65,7 @@ class LocationService : Service(){
                     val currentTime = System.currentTimeMillis()
                     if (currentTime - lastApiCallTime >= 3 * 60 * 1000) { // 3 minutes
                         lastApiCallTime = currentTime
-                        CoroutineScope(Dispatchers.IO).launch {
+                        val response = CoroutineScope(Dispatchers.IO).launch {
                             try {
                                 mainUseCase.updateLocation(UpdateLocation(
                                     preferences.getOid()!!.toLong(),
@@ -77,6 +77,7 @@ class LocationService : Service(){
                                 Log.e("BgLocation", "Error sending location", e)
                             }
                         }
+                        Log.d("TAG_DATA", "onLocationResult: $response")
                     }else {
                         Log.d("BgLocation", "Location received but API not called yet (waiting 5 mins)")
                     }
