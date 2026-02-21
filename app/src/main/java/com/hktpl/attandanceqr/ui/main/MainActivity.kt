@@ -81,6 +81,7 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
     private var siteData: ScanQRResponse? = null
     private var currentCircle: Circle? = null
     private var siteMarker: Marker? = null
+    private var isAttendanceMarked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,6 +116,7 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
         }
 
         observeScanQR()
+        observeAttendance()
     }
 
     // ============================================================
@@ -312,50 +314,14 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
         else
             0x220000FF
 
-        if (isInside){
+        if (isInside && !isAttendanceMarked) {
+            isAttendanceMarked = true   // ✅ Prevent multiple calls
             mainViewModel.attendance(AttendanceMarkModelV1(
                 preferences.getOid(),
                 siteGateOid,
                 userLatLng.latitude,
                 userLatLng.longitude
             ))
-            mainViewModel.attendanceData.observe(this){ response ->
-                if (response != null){
-                    if (response.isLoading){
-                        binding.progressBarMain.visibility = VISIBLE
-                        binding.progressBarMain.progress
-                    }
-                    if (response.error!!.isNotEmpty()){
-                        binding.progressBarMain.visibility = GONE
-                        if (internetStatus) {
-                            Toast.makeText(this, "${mainViewModel.scanQRData.value?.error}", Toast.LENGTH_SHORT).show()
-                        }else {
-                            Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    if (response.data != null){
-                        binding.progressBarMain.visibility = GONE
-                        if (internetStatus) {
-                            openAttendanceDialog(response.data.message.toString())
-                            if (response.data.message == getString(R.string.in_time_marked)){
-                                if (response.data.locationTrackingEnabled!!){
-                                    preferences.setSiteOid(response.data.siteOid.toString())
-                                    preferences.setLocationStatus(true)
-                                }else{
-                                    preferences.setLocationStatus(false)
-                                }
-                            }else{
-                                stopLocationService()
-                                preferences.setLocationStatus(false)
-                                mainViewModel.stopTracking(StopTracking(preferences.getOid()!!.toLong()))
-                            }
-                        }else{
-                            Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            }
         }
         currentCircle?.remove()
 
@@ -369,6 +335,77 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
         )
     }
 
+    private fun observeAttendance() {
+        mainViewModel.attendanceData.observe(this) { response ->
+            if (response == null) return@observe
+            if (response.isLoading) {
+                binding.progressBarMain.visibility = VISIBLE
+                return@observe
+            }
+            if (!response.error.isNullOrEmpty()) {
+                binding.progressBarMain.visibility = GONE
+                Toast.makeText(this, response.error, Toast.LENGTH_SHORT).show()
+                isAttendanceMarked = false   // allow retry if failed
+                return@observe
+            }
+            response.data?.let { data ->
+                binding.progressBarMain.visibility = GONE
+                openAttendanceDialog(data.message ?: "")
+                if (data.message == getString(R.string.in_time_marked)) {
+                    if (data.locationTrackingEnabled == true) {
+                        preferences.setSiteOid(data.siteOid.toString())
+                        preferences.setLocationStatus(true)
+                    } else {
+                        preferences.setLocationStatus(false)
+                    }
+                } else {
+                    stopLocationService()
+                    preferences.setLocationStatus(false)
+                    mainViewModel.stopTracking(
+                        StopTracking(preferences.getOid()!!.toLong())
+                    )
+                }
+            }
+        }
+
+        mainViewModel.attendanceData.observe(this){ response ->
+            if (response != null){
+                if (response.isLoading){
+                    binding.progressBarMain.visibility = VISIBLE
+                    binding.progressBarMain.progress
+                }
+                if (response.error!!.isNotEmpty()){
+                    binding.progressBarMain.visibility = GONE
+                    if (internetStatus) {
+                        Toast.makeText(this, "${mainViewModel.scanQRData.value?.error}", Toast.LENGTH_SHORT).show()
+                    }else {
+                        Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                if (response.data != null){
+                    binding.progressBarMain.visibility = GONE
+                    if (internetStatus) {
+                        openAttendanceDialog(response.data.message.toString())
+                        if (response.data.message == getString(R.string.in_time_marked)){
+                            if (response.data.locationTrackingEnabled!!){
+                                preferences.setSiteOid(response.data.siteOid.toString())
+                                preferences.setLocationStatus(true)
+                            }else{
+                                preferences.setLocationStatus(false)
+                            }
+                        }else{
+                            stopLocationService()
+                            preferences.setLocationStatus(false)
+                            mainViewModel.stopTracking(StopTracking(preferences.getOid()!!.toLong()))
+                        }
+                    }else{
+                        Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
     companion object{
         var obj: QRListener? = null
     }
