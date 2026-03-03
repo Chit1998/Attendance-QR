@@ -358,49 +358,15 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
                     } else {
                         preferences.setLocationStatus(false)
                     }
-                } else {
+                } else if (data.message.equals(getString(R.string.out_time_marked), true)){
                     stopLocationService()
                     preferences.setLocationStatus(false)
                     mainViewModel.stopTracking(
                         StopTracking(preferences.getOid()!!.toLong())
                     )
-                }
-            }
-        }
-
-        mainViewModel.attendanceData.observe(this){ response ->
-            if (response != null){
-                if (response.isLoading){
-                    binding.progressBarMain.visibility = VISIBLE
-                    binding.progressBarMain.progress
-                }
-                if (response.error!!.isNotEmpty()){
-                    binding.progressBarMain.visibility = GONE
-                    if (internetStatus) {
-                        Toast.makeText(this, "${mainViewModel.scanQRData.value?.error}", Toast.LENGTH_SHORT).show()
-                    }else {
-                        Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                if (response.data != null){
-                    binding.progressBarMain.visibility = GONE
-                    if (internetStatus) {
-                        openAttendanceDialog(response.data.message.toString())
-                        if (response.data.message == getString(R.string.in_time_marked)){
-                            if (response.data.locationTrackingEnabled!!){
-                                preferences.setSiteOid(response.data.siteOid.toString())
-                                preferences.setLocationStatus(true)
-                            }else{
-                                preferences.setLocationStatus(false)
-                            }
-                        }else{
-                            stopLocationService()
-                            preferences.setLocationStatus(false)
-                            mainViewModel.stopTracking(StopTracking(preferences.getOid()!!.toLong()))
-                        }
-                    }else{
-                        Toast.makeText(this, getString(R.string.try_again), Toast.LENGTH_SHORT).show()
+                }else{
+                    if (!data.message.isNullOrEmpty()){
+                        openAttendanceDialog(data.message)
                     }
                 }
             }
@@ -419,7 +385,7 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun stopLocationService() {
+    fun stopLocationService() {
         val intent = Intent(this, LocationService::class.java)
         stopService(intent)
     }
@@ -444,36 +410,36 @@ class MainActivity : BaseActivity(), OnMapReadyCallback {
         }
 
         dialogBinding.btnOk.setOnClickListener {
-            if (preferences.getLocationStatus() ==  true){
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                        ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(
-                                Manifest.permission.FOREGROUND_SERVICE_LOCATION
-                            ),
-                            100
-                        )
-                    }else{
-                        ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(
-                                Manifest.permission.ACCESS_FINE_LOCATION
-                            ),
-                            100
-                        )
-                    }
-                } else {
-                    startLocationService()
-                }
+            if (preferences.getLocationStatus()){
+                requestBackgroundPermission()
             }
             dialog.dismiss()
             dialog.cancel()
         }
         dialog.show()
     }
+    private fun requestBackgroundPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestBackgroundPermissionLauncher.launch(
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                )
+            } else {
+                startLocationService()
+            }
+        } else {
+            startLocationService()
+        }
+    }
+
+    private val requestBackgroundPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                startLocationService()
+            }
+        }
 }

@@ -11,15 +11,16 @@ import com.hktpl.attandanceqr.objects.TAG.PHONE
 import com.hktpl.attandanceqr.objects.TAG.SITE_OID
 
 class UserPreferences(context: Context) {
-    private var preferences: SharedPreferences =
+    private val preferences: SharedPreferences by lazy {
         context.getSharedPreferences(USER_FILE_NAME, Context.MODE_PRIVATE)
+    }
     private var editor: SharedPreferences.Editor = preferences.edit()
 
     fun setData(empId: String?, name: String?, phone: String?){
         editor.putString(EMP_ID,empId)
         editor.putString(NAME,name)
         editor.putString(PHONE,phone)
-        editor.commit()
+        editor.apply()
     }
 
     fun getEmpId(): String? {

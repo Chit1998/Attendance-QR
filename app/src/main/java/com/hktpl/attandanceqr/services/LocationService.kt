@@ -22,6 +22,7 @@ import com.hktpl.attandanceqr.R
 import com.hktpl.attandanceqr.di.repo.RestRepositoryImpl
 import com.hktpl.attandanceqr.models.UpdateLocation
 import com.hktpl.attandanceqr.peferences.UserPreferences
+import com.hktpl.attandanceqr.ui.main.MainActivity
 import com.hktpl.attandanceqr.ui.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import jakarta.inject.Inject
@@ -29,6 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.log
 
 @AndroidEntryPoint
@@ -65,21 +67,26 @@ class LocationService : Service(){
                     val currentTime = System.currentTimeMillis()
                     if (currentTime - lastApiCallTime >= 3 * 60 * 1000) { // 3 minutes
                         lastApiCallTime = currentTime
-                        val response = CoroutineScope(Dispatchers.IO).launch {
-                            try {
-                                mainUseCase.updateLocation(UpdateLocation(
-                                    preferences.getOid()!!.toLong(),
-                                    preferences.getSiteOid()!!.toLong(),
-                                    location.latitude,
-                                    location.longitude
-                                ))
-                            }catch (e: Exception) {
-                                Log.e("BgLocation", "Error sending location", e)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val res = mainUseCase.updateLocation(UpdateLocation(
+                                preferences.getOid()!!.toLong(),
+                                preferences.getSiteOid()!!.toLong(),
+                                location.latitude,
+                                location.longitude
+                            ))
+
+                            res.data?.let {
+                                if (it.message.equals("Manualy marked out", true)){
+                                    withContext(Dispatchers.Main) {
+                                        fusedLocationClient.removeLocationUpdates(locationCallback)
+                                        stopForeground(true)
+                                        stopSelf()
+                                    }
+                                }
                             }
                         }
-                        Log.d("TAG_DATA", "onLocationResult: $response")
                     }else {
-                        Log.d("BgLocation", "Location received but API not called yet (waiting 5 mins)")
+                        Log.d("BgLocation", "Location received but API not called yet (waiting 3 mins)")
                     }
                     Log.d("BgLocation", "Lat: ${location.latitude}, Lng: ${location.longitude}")
                 }

@@ -2,9 +2,9 @@ package com.hktpl.attandanceqr.di
 
 import android.util.Base64
 import com.hktpl.attandanceqr.BuildConfig
-//import com.hktpl.attandanceqr.objects.TAG.getApi
-//import com.hktpl.attandanceqr.objects.TAG.getApiTest
-import com.hktpl.attandanceqr.objects.TAG.BASE_URL_TEST
+import com.hktpl.attandanceqr.objects.TAG.getApi
+import com.hktpl.attandanceqr.objects.TAG.getApiTest
+//import com.hktpl.attandanceqr.objects.TAG.BASE_URL_TEST
 import com.hktpl.attandanceqr.services.ApiService
 import dagger.Module
 import dagger.Provides
@@ -45,7 +45,7 @@ object AppModule {
     fun getInstance(): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl(String(Base64.decode(BASE_URL_TEST,Base64.DEFAULT)))
+            .baseUrl(String(Base64.decode(getApi(),Base64.DEFAULT)))
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
