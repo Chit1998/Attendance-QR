@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
-    id ("kotlin-kapt")
+//    alias(libs.plugins.jetbrains.kotlin.android)
+//    id ("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -9,7 +10,11 @@ plugins {
 
 android {
     namespace = "com.hktpl.attandanceqr"
-    compileSdk = 36
+    compileSdk {
+        version = release(36) {
+            minorApiLevel = 1
+        }
+    }
 
     defaultConfig {
         applicationId = "com.hktpl.attandanceqr"
@@ -35,9 +40,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
+//    kotlinOptions {
+//        jvmTarget = "17"
+//    }
 
     buildFeatures {
         viewBinding = true
@@ -85,12 +90,12 @@ dependencies {
 
 //   TODO: hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation (libs.androidx.lifecycle.livedata.ktx)
     implementation (libs.androidx.lifecycle.viewmodel.savedstate)
     implementation (libs.androidx.lifecycle.extensions)
-    kapt (libs.androidx.lifecycle.compiler)
+    ksp (libs.androidx.lifecycle.compiler)
 
 //    TODO: firebase
     implementation(libs.firebase.analytics.ktx)
